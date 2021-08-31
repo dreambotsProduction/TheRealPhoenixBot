@@ -10,8 +10,8 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from telegram import Message, Chat, Update, Bot, ParseMode
 from telegram.ext import run_async
 
-from tg_bot import dispatcher
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from KittuRobot import dispatcher
+from KittuRobot.modules.disable import DisableAbleCommandHandler
 
 SHRUGS = (
     "┐(´д｀)┌",
@@ -164,33 +164,33 @@ normiefont = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q
 weebyfont = ['卂','乃','匚','刀','乇','下','厶','卄','工','丁','长','乚','从','𠘨','口','尸','㔿','尺','丂','丅','凵','リ','山','乂','丫','乙']
 
 
-@run_async
+
 def shrug(bot: Bot, update: Update):
     # reply to correct message 
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text = reply_text(random.choice(SHRUGS))
 
 
-@run_async
+
 def hug(bot: Bot, update: Update):
     # reply to correct message 
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text = reply_text(random.choice(HUGS))
     
     
-@run_async
+
 def toss(bot: Bot, update: Update):
  	update.effective_message.reply_text(random.choice(TOSS))
 
 
-@run_async
+
 def react(bot: Bot, update: Update):
 	 # reply to correct message 
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text = reply_text(random.choice(REACTS))
     
 
-@run_async
+
 def shout(bot: Bot, update: Update, args):
     msg = "```"
     text = " ".join(args)
@@ -206,7 +206,7 @@ def shout(bot: Bot, update: Update, args):
     return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
-@run_async
+
 def pat(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     msg = str(update.message.text)
@@ -227,7 +227,7 @@ def pat(bot: Bot, update: Update):
         bot.send_photo(chat_id, f'https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}', reply_to_message_id=msg_id)
 
 
-@run_async
+
 def wiki(bot: Bot, update: Update):
     msg = update.effective_message.reply_to_message if update.effective_message.reply_to_message else update.effective_message
     res = ""
@@ -257,7 +257,7 @@ def wiki(bot: Bot, update: Update):
             update.message.reply_text(result, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def judge(bot: Bot, update: Update):
     judger = ["<b>is lying!</b>", "<b>is telling the truth!</b>"]
     rep = update.effective_message
@@ -271,7 +271,7 @@ def judge(bot: Bot, update: Update):
     reply = msg.reply_text(f"{user} {res}", parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def weebify(bot: Bot, update: Update, args):
     msg = update.effective_message
     if args:
@@ -309,15 +309,15 @@ __help__ = """
 __mod_name__ = "Extras"
 
 
-SHRUG_HANDLER = DisableAbleCommandHandler(["shrug", "shg"], shrug)
-HUG_HANDLER = DisableAbleCommandHandler("hug", hug)
-REACT_HANDLER = DisableAbleCommandHandler("react", react)
-TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
+SHRUG_HANDLER = DisableAbleCommandHandler(["shrug", "shg"], shrug, run_async=True)
+HUG_HANDLER = DisableAbleCommandHandler("hug", hug, run_async=True)
+REACT_HANDLER = DisableAbleCommandHandler("react", react, run_async=True)
+TOSS_HANDLER = DisableAbleCommandHandler("toss", toss, run_async=True)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
-PAT_HANDLER = DisableAbleCommandHandler("pat", pat)
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
-JUDGE_HANDLER = DisableAbleCommandHandler("judge", judge)
-WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, pass_args=True)
+PAT_HANDLER = DisableAbleCommandHandler("pat", pat, run_async=True)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
+JUDGE_HANDLER = DisableAbleCommandHandler("judge", judge, run_async=True)
+WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, pass_args=True, run_async=True)
 
 dispatcher.add_handler(SHRUG_HANDLER)
 dispatcher.add_handler(HUG_HANDLER)
