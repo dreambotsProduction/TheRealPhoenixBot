@@ -6,10 +6,10 @@ from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboar
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
-import tg_bot.modules.sql.connection_sql as sql
-from tg_bot import dispatcher, SUDO_USERS, DEV_USERS
-from tg_bot.modules.helper_funcs import chat_status
-from tg_bot.modules.helper_funcs.alternate import send_message
+import KittuRobot.modules.sql.connection_sql as sql
+from KittuRobot import dispatcher, SUDO_USERS, DEV_USERS
+from KittuRobot.modules.helper_funcs import chat_status
+from KittuRobot.modules.helper_funcs.alternate import send_message
 
 user_admin = chat_status.user_admin
 
@@ -21,7 +21,6 @@ You can add and remove notes and filters in PM."""
 
 
 @user_admin
-@run_async
 def allow_connections(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
 
@@ -66,7 +65,6 @@ def allow_connections(bot: Bot, update: Update, args: List[str]):
         )
 
 
-@run_async
 def connection_chat(bot: Bot, update: Update):
     chat = update.effective_chat
     user = update.effective_user
@@ -88,7 +86,7 @@ def connection_chat(bot: Bot, update: Update):
     send_message(msg, message, parse_mode="markdown")
 
 
-@run_async
+
 def connect_chat(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
     user = update.effective_user
@@ -292,7 +290,6 @@ def connected(bot: Bot, update: Update,  chat, user_id, need_admin=True):
         return False
 
 
-@run_async
 def help_connect_chat(bot: Bot, update: Update):
     msg = update.effective_message 
 
@@ -304,7 +301,7 @@ def help_connect_chat(bot: Bot, update: Update):
 
 
 
-@run_async
+
 def connect_button(bot: Bot, update: Update):
     query = update.callback_query
     chat = update.effective_chat
@@ -374,14 +371,14 @@ __help__ = """
  - /allowconnect <yes/no>: allow a user to connect to a chat
 """
 
-CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
-CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
-DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
+CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True, run_async=True)
+CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat, run_async=True)
+DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat, run_async=True)
 ALLOW_CONNECTIONS_HANDLER = CommandHandler(
     "allowconnect", allow_connections, pass_args=True
-)
-HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
-CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
+, run_async=True)
+HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat, run_async=True)
+CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect", run_async=True)
 
 dispatcher.add_handler(CONNECT_CHAT_HANDLER)
 dispatcher.add_handler(CONNECTION_CHAT_HANDLER)
