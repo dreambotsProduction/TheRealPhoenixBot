@@ -3,12 +3,12 @@
 from telegram import Message, User, Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 
-from tg_bot import dispatcher, OWNER_ID
+from KittuRobot import dispatcher, OWNER_ID
 
-import tg_bot.modules.sql.blacklistusers_sql as sql
+import KittuRobot.modules.sql.blacklistusers_sql as sql
 
 
-@run_async
+
 def bl_user(bot: Bot, update: Update, args):
     if update.effective_message.reply_to_message:
         user_id = str(update.effective_message.reply_to_message.from_user.id)
@@ -20,7 +20,7 @@ def bl_user(bot: Bot, update: Update, args):
     update.effective_message.reply_text("User has been blacklisted from using me!")
     
 
-@run_async 
+ 
 def bl_users(bot: Bot, update: Update):
     rep = "<b>Blacklisted Users</b>\n"
     for x in sql.BLACKLIST_USERS:
@@ -35,7 +35,7 @@ def bl_users(bot: Bot, update: Update):
     update.effective_message.reply_text(rep, parse_mode=ParseMode.HTML)
     
     
-@run_async
+
 def unbl_user(bot: Bot, update: Update, args):
     rep = update.effective_message
     msg = update.effective_message.reply_to_message
