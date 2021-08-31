@@ -8,10 +8,10 @@ from telegram.ext import Updater, CommandHandler
 from telegram.error import TimedOut, NetworkError
 from telegram import ParseMode
 
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from KittuRobot.modules.disable import DisableAbleCommandHandler
 from telegram.ext.dispatcher import run_async
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, dev_user
-from tg_bot import dispatcher, LOGGER
+from KittuRobot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, dev_user
+from KittuRobot import dispatcher, LOGGER
 
 from requests import get
 
@@ -72,12 +72,10 @@ def send(msg, bot, update):
                                           chat_id=update.effective_chat.id)
 
 @dev_user
-@run_async
 def evaluate(bot, update):
     send(do(eval, bot, update), bot, update)
 
 @dev_user
-@run_async
 def execute(bot, update):
     send(do(exec, bot, update), bot, update)
 
@@ -132,7 +130,6 @@ def do(func, bot, update):
                
 
 @dev_user
-@run_async
 def clear(bot, update):
     log_input(update)
     global namespaces
@@ -151,9 +148,9 @@ def error_callback(bot, update, error):
 
 __mod_name__ = "Eval"
 
-eval_handle = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
-exec_handle = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
-clear_handle = CommandHandler('clearlocals', clear)
+eval_handle = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate, run_async=True)
+exec_handle = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute, run_async=True)
+clear_handle = CommandHandler('clearlocals', clear, run_async=True)
 
 dispatcher.add_handler(eval_handle)
 dispatcher.add_handler(exec_handle)
