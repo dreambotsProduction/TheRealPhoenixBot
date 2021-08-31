@@ -4,10 +4,10 @@ import requests
 from telegram import Bot, Message, Update, ParseMode
 from telegram.ext import CommandHandler, run_async
 
-from tg_bot import dispatcher
+from KittuRobot import dispatcher
 
 
-@run_async
+
 def define(bot: Bot, update: Update, args):
     msg = update.effective_message
     word = " ".join(args)
@@ -39,6 +39,6 @@ With this module, you can find the definitions of words without having to leave 
 __mod_name__ = "Dictionary"
         
         
-DEFINE_HANDLER = CommandHandler("define", define, pass_args=True)
+DEFINE_HANDLER = CommandHandler("define", define, pass_args=True, run_async=True)
 
 dispatcher.add_handler(DEFINE_HANDLER)
