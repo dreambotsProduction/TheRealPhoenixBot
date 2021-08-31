@@ -8,20 +8,20 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 
-from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
-from tg_bot.modules.helper_funcs.extraction import extract_text
-from tg_bot.modules.helper_funcs.filters import CustomFilters
-from tg_bot.modules.helper_funcs.misc import build_keyboard
-from tg_bot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
-from tg_bot.modules.sql import cust_filters_sql as sql
+from KittuRobot import dispatcher, LOGGER
+from KittuRobot.modules.disable import DisableAbleCommandHandler
+from KittuRobot.modules.helper_funcs.chat_status import user_admin, connection_status
+from KittuRobot.modules.helper_funcs.extraction import extract_text
+from KittuRobot.modules.helper_funcs.filters import CustomFilters
+from KittuRobot.modules.helper_funcs.misc import build_keyboard
+from KittuRobot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
+from KittuRobot.modules.sql import cust_filters_sql as sql
 
 HANDLER_GROUP = 10
 BASIC_FILTER_STRING = "*Filters in this chat:*\n"
 
 
-@run_async
+
 @connection_status
 def list_handlers(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -146,7 +146,7 @@ def stop_filter(bot: Bot, update: Update):
     update.effective_message.reply_text("That's not a current filter - run /filters for all active filters.")
 
 
-@run_async
+
 def reply_filter(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -227,10 +227,10 @@ doin?
 
 __mod_name__ = "Filters"
 
-FILTER_HANDLER = CommandHandler("filter", filters)
-STOP_HANDLER = CommandHandler("stop", stop_filter)
-LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
-CUST_FILTER_HANDLER = MessageHandler(CustomFilters.has_text, reply_filter)
+FILTER_HANDLER = CommandHandler("filter", filters, run_async=True)
+STOP_HANDLER = CommandHandler("stop", stop_filter, run_async=True)
+LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True, run_async=True)
+CUST_FILTER_HANDLER = MessageHandler(CustomFilters.has_text, reply_filter, run_async=True)
 
 dispatcher.add_handler(FILTER_HANDLER)
 dispatcher.add_handler(STOP_HANDLER)
