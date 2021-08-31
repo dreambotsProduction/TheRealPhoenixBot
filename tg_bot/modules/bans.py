@@ -6,16 +6,16 @@ from telegram.error import BadRequest
 from telegram.ext import run_async, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, BAN_STICKER, LOGGER, OWNER_ID
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
+from KittuRobot import dispatcher, BAN_STICKER, LOGGER, OWNER_ID
+from KittuRobot.modules.disable import DisableAbleCommandHandler
+from KittuRobot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
     is_user_admin, is_user_in_chat, can_delete, user_can_ban
-from tg_bot.modules.helper_funcs.extraction import extract_user_and_text
-from tg_bot.modules.helper_funcs.string_handling import extract_time
-from tg_bot.modules.log_channel import loggable
+from KittuRobot.modules.helper_funcs.extraction import extract_user_and_text
+from KittuRobot.modules.helper_funcs.string_handling import extract_time
+from KittuRobot.modules.log_channel import loggable
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 @user_admin
@@ -83,7 +83,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 @user_admin
@@ -139,7 +139,7 @@ def sban(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 @user_admin
@@ -222,7 +222,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 @user_admin
@@ -277,7 +277,7 @@ def kick(bot: Bot, update: Update, args: List[str]) -> str:
     return ""
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 def kickme(bot: Bot, update: Update):
@@ -293,7 +293,7 @@ def kickme(bot: Bot, update: Update):
         update.effective_message.reply_text("Huh? I can't :/")
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 def banme(bot: Bot, update: Update):
@@ -311,7 +311,7 @@ def banme(bot: Bot, update: Update):
     update.effective_message.reply_text(res)
 
 
-@run_async
+
 @bot_admin
 @can_restrict
 @user_admin
@@ -373,13 +373,13 @@ __help__ = """
 
 __mod_name__ = "Bans"
 
-BAN_HANDLER = CommandHandler("ban", ban, pass_args=True, filters=Filters.group)
-SBAN_HANDLER = CommandHandler("sban", sban, pass_args=True, filters=Filters.group)
-TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True, filters=Filters.group)
-KICK_HANDLER = CommandHandler("kick", kick, pass_args=True, filters=Filters.group)
-UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True, filters=Filters.group)
-KICKME_HANDLER = DisableAbleCommandHandler("kickme", kickme, filters=Filters.group)
-BANME_HANDLER = DisableAbleCommandHandler("banme", banme, filters=Filters.group)
+BAN_HANDLER = CommandHandler("ban", ban, pass_args=True, filters=Filters.chat_type.groups, run_async=True)
+SBAN_HANDLER = CommandHandler("sban", sban, pass_args=True, filters=Filters.chat_type.groups, run_async=True)
+TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True, filters=Filters.chat_type.groups, run_async=True)
+KICK_HANDLER = CommandHandler("kick", kick, pass_args=True, filters=Filters.chat_type.groups, run_async=True)
+UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True, filters=Filters.chat_type.groups, run_async=True)
+KICKME_HANDLER = DisableAbleCommandHandler("kickme", kickme, filters=Filters.chat_type.groups, run_async=True)
+BANME_HANDLER = DisableAbleCommandHandler("banme", banme, filters=Filters.chat_type.groups, run_async=True)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(SBAN_HANDLER)
