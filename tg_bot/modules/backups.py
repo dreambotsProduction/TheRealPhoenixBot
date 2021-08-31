@@ -6,12 +6,12 @@ from telegram import Message, Chat, Update, Bot
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 
-from tg_bot import dispatcher, LOGGER
-from tg_bot.__main__ import DATA_IMPORT
-from tg_bot.modules.helper_funcs.chat_status import user_admin
+from KittuRobot import dispatcher, LOGGER
+from KittuRobot.__main__ import DATA_IMPORT
+from KittuRobot.modules.helper_funcs.chat_status import user_admin
 
 
-@run_async
+
 @user_admin
 def import_data(bot: Bot, update):
     msg = update.effective_message  # type: Optional[Message]
@@ -62,7 +62,7 @@ def import_data(bot: Bot, update):
         msg.reply_text("Backup fully imported. Welcome back! :D")
 
 
-@run_async
+
 @user_admin
 def export_data(bot: Bot, update: Update):
     msg = update.effective_message  # type: Optional[Message]
@@ -77,8 +77,8 @@ __help__ = """
 that files/photos can't be imported due to telegram restrictions.
  - /export: !!! This isn't a command yet, but should be coming soon!
 """
-IMPORT_HANDLER = CommandHandler("import", import_data)
-EXPORT_HANDLER = CommandHandler("export", export_data)
+IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
+EXPORT_HANDLER = CommandHandler("export", export_data, run_async=True)
 
 dispatcher.add_handler(IMPORT_HANDLER)
 # dispatcher.add_handler(EXPORT_HANDLER)
