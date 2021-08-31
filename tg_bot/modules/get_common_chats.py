@@ -7,12 +7,12 @@ from telegram.error import BadRequest, Unauthorized, RetryAfter
 from telegram.ext import CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 
-from tg_bot import dispatcher, OWNER_ID
-from tg_bot.modules.sql.users_sql import get_user_com_chats
-from tg_bot.modules.helper_funcs.extraction import extract_user
+from KittuRobot import dispatcher, OWNER_ID
+from KittuRobot.modules.sql.users_sql import get_user_com_chats
+from KittuRobot.modules.helper_funcs.extraction import extract_user
 
 
-@run_async
+
 def get_user_common_chats(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
     user = extract_user(msg, args)
@@ -50,7 +50,7 @@ COMMON_CHATS_HANDLER = CommandHandler(
     "getchats",
     get_user_common_chats,
     filters=Filters.user(OWNER_ID),
-    pass_args=True
+    pass_args=True, run_async=True
     )
     
 dispatcher.add_handler(COMMON_CHATS_HANDLER)
